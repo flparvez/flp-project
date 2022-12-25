@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import { Link, useNavigate,  } from "react-router-dom";
-import { Checkbox } from "@material-tailwind/react";
-import { Alert } from "@material-tailwind/react";
+import { Alert, Checkbox } from "@material-tailwind/react";
+
+import { useRegisterUserMutation } from "../../services/UserAuthApi";
+import { storeToken } from "../../services/LocalStorageService";
  
 
 const Register = () => {
+  const [server_erorr, setserver_erorr] = useState({})
   
-  
-  const [error, seterror] = useState({
-    status: false,
-    msg: "",
-    type: ""
-  })
+ 
 
   const navigate = useNavigate()
+const [registerUser, {isLoading}]= useRegisterUserMutation()
+
+
     const image = 'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg'
-    const handlesubmit =(e)=>{
+    const handlesubmit =async (e)=>{
       e.preventDefault();
       const data = new FormData(e.currentTarget);
       const actualData = {
@@ -23,49 +24,31 @@ const Register = () => {
         email: data.get('email'),
         tc: data.get('tc'),
         password: data.get('password'),
-        Cpassword: data.get('Cpassword'),
+        password2: data.get('password2'),
       }
-     
-     
+      const res = await registerUser(actualData)
+// console.log(res)
+     if (res.error){
+      setserver_erorr(res.error.data.errors)
+ console.log(res.error)
+     }else{
+      // console.log(res.data);
+      storeToken(res.data.token)
+      navigate('/profile')
+     }
+    }
 
-if( actualData.name && actualData.email && actualData.tc !== null  ){
-
-  if(actualData.password === actualData.Cpassword){
-    document.getElementById('login-form').reset()
-       
-    seterror({
-      status: true,
-      msg: "Registration Succesfull",
-      type: "green"
-    })
-  }else{
-    seterror({
-      status: true,
-      msg: "Password Not Matched",
-      type: "red"
-    })
-  }
-        console.log(actualData)
- 
-        // document.getElementById('login-form').reset()
-       
-    
-        navigate('/profile')
-      }else{
-        seterror({
-          status: true,
-          msg: "All Fields Are Required",
-          type: "orange"
-        })
-      
-      }
-      
-console.log(error)
-       }
+    // { server_erorr.name ? console.log( server_erorr.name[0]) : "" }
+    // { server_erorr.email ? console.log( server_erorr.email[0]) : "" }
+    // { server_erorr.password ? console.log( server_erorr.password[0]) : "" }
+    // { server_erorr.password2 ? console.log( server_erorr.password2[0]) : "" }
+    // { server_erorr.tc ? console.log( server_erorr.tc[0]) : "" }
+    // {server_erorr.non_field_errors ? console.log( server_erorr.non_field_errors[0]) : "" }
   
   return (
   
   <div>
+ 
             
             <section className="h-screen">
   <div className="container px-2 py-12 h-full">
@@ -89,37 +72,51 @@ console.log(error)
           <div className="mb-6">
             <input
               type="text" name="name"
-              className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              className="form-control block w-full px-4 py-2 text-xl font-normal text-black bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-black focus:bg-white focus:border-blue-600 focus:outline-none"
               placeholder="Enter Your Full Name"
-           required />
+            />
+            
+    { server_erorr.name ? <h2 className="text-white text-sm bg-red-500  text-center">{server_erorr.name[0]}</h2> : ""  }
+
           </div>
+          
 
    <div className="mb-6">
             <input
               type="email" name="email"
-              className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              className="form-control block w-full px-4 py-2 text-xl font-normal text-black bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-black focus:bg-white focus:border-blue-600 focus:outline-none"
               placeholder="Email address"
-           required />
+            />
+
+            { server_erorr.email ? <h2 className="text-white  text-sm bg-red-500  text-center">{server_erorr.email[0]}</h2> : ""  }
+
           </div>
 
          
           <div className="mb-6">
             <input
               type="password" name="password"
-              className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              className="form-control block w-full px-4 py-2 text-xl font-normal text-black bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-black focus:bg-white focus:border-blue-600 focus:outline-none"
               placeholder="Password"
             />
+
+            { server_erorr.password ? <h2 className=" text-sm text-white bg-red-500  text-center">{server_erorr.password[0]}</h2> : ""  }
+
           </div>
 
         <div className="mb-6">
-            <input name="Cpassword"
+            <input name="password2"
               type="password"
-              className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              className="form-control block w-full px-4 py-2 text-xl font-normal text-black bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-black focus:bg-white focus:border-blue-600 focus:outline-none"
               placeholder="Confirm Password"
             />
+            { server_erorr.password2 ? <h2 className=" text-sm text-white bg-red-500  text-center">{server_erorr.password2[0]}</h2> : ""  }
+
           </div>
 
           <Checkbox name="tc" label="Remember Me" />
+          { server_erorr.tc ? <h2 className="text-white text-sm bg-red-500  text-center">{server_erorr.tc[0]}</h2> : ""  }
+
 
 
           <div className="flex justify-between items-center mb-6">
@@ -130,10 +127,10 @@ console.log(error)
               >Forgot password?</
             Link>
           </div>
-          { error.status ? <Alert color={error.type}  >{error.msg}</Alert> : '' 
-        }
-          
-          <button
+       
+             { server_erorr.non_field_errors ?  <h2 className="text-white my-2  bg-red-500  text-center">{server_erorr.non_field_errors }</h2> : ""}
+         
+             <button
             type="submit"
             className="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full"
             data-mdb-ripple="true"

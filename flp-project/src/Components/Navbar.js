@@ -1,11 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getToken } from '../services/LocalStorageService';
 
-
+ 
 const Navbar = () => {
+    const {access_token, refresh_token} = getToken()
   const [navbar, setNavbar] = useState(false);
-
+console.log("Refresh Token  "+ refresh_token);
   return (
     <div>
       <nav className="w-full bg-white shadow">
@@ -15,12 +17,18 @@ const Navbar = () => {
                       <Link to='/'>
                           <h2 className="text-2xl font-bold">Flparvez</h2>
                           </Link>
-                      <Link to="/register">
-                          <h2 className="text-xl font-mono">Register</h2>
-                      </Link>
-                       <Link to="/login">
-                          <h2 className=" text-xl font-mono">Login</h2>
-                      </Link>
+                      { access_token ? <Link to="/profile">
+                      <h2 className="text-xl font-mono">Profile</h2>
+                  </Link> : <Link to="/register">
+                      <h2 className="text-xl font-mono">Register</h2>
+                  </Link> }
+
+ { access_token ? " " : <Link to="/login">
+                      <h2 className="text-xl font-mono">Login</h2>
+                  </Link> }
+
+
+                   
                       <div className="md:hidden">
                           <button
                               className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"

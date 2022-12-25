@@ -2,58 +2,41 @@
 import React, { useState } from 'react';
 import {   useNavigate } from 'react-router-dom';
 import { Alert } from "@material-tailwind/react";
+import { useSelector } from 'react-redux';
+import { useChangeUserPasswordMutation } from '../../services/UserAuthApi';
+import { getToken } from '../../services/LocalStorageService';
+
+
 const ChangePassword = () => {
-    const [error, seterror] = useState({
-        status: false,
-        msg: "",
-        type: ""
-      })
-    
-      const navigate = useNavigate()
+
+  const [server_erorr, setServerError] = useState({})
+  const [server_msg, setServerMsg] = useState({})
+  const [changeUserPassword] = useChangeUserPasswordMutation()
+  const { access_token } = getToken()
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const actualData = {
+      password: data.get('password'),
+      password2: data.get('password2'),
+    }
+    const res = await changeUserPassword({ actualData, access_token })
+    if (res.error) {
+      setServerMsg({})
+      setServerError(res.error.data.errors)
+    }
+    if (res.data) {
+      // console.log(res.data)
+      setServerError({})
+      setServerMsg(res.data)
+      document.getElementById("password-change-form").reset();
+    }
+
+  };
+  // const myData = useSelector(state => state.user)
+  // console.log("Change Password", myData)
         
-        const handleSubmit =(e)=>{
-          e.preventDefault();
-          const data = new FormData(e.currentTarget);
-          const actualData = {
-            password: data.get('password'),
-            Cpassword: data.get('Cpassword'),
-            
-          }
-         
-          if(actualData.password && actualData.Cpassword){
-            if(   actualData.password === actualData.Cpassword ){
-                console.log(actualData)
-                document.getElementById('send-password').reset()
-                seterror({
-                  status: true,
-                  msg: "Password Change Succesfully Redirecting to Login Page",
-                  type: "green"
-                })
-
-                setTimeout(()=>{
-                    navigate("/profile")
-                },3000)
-                
-              }else{
-                seterror({
-                  status: true,
-                  msg: "Password Not Matched",
-                  type: "orange"
-                })
-              
-              }
-
-          }else{
-            seterror({
-              status: true,
-              msg: "All Fields Are Required",
-              type: "orange"
-            })
-          
-          }
-    
-    console.log(error)
-           }
         
         return (
             <div>
@@ -62,9 +45,9 @@ const ChangePassword = () => {
                 <section className="h-screen">
       <div className="container px-2 py-6 h-min">
         <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
-         
+        
           <div className="md:w-8/12 lg:w-5/12 lg:ml-20">
-            <form id='send-password' onSubmit={handleSubmit}>
+            <form id='password-change-form' onSubmit={handleSubmit}>
             <div className="flex space-x-2 my-4 px-2 justify-center">
             <div>
             <h2 className="text-center mb-3 bg-sky-200  mt-4">Update Password</h2>
@@ -80,21 +63,25 @@ const ChangePassword = () => {
                   className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   placeholder="New Password"
                 />
+                { server_erorr.password ? <h2 className="text-white  text-sm bg-red-500  text-center">{server_erorr.password[0]}</h2> : ""  }
+
               </div>
       <div className="mb-6">
                 <input
-                  type="password" name='Cpassword'
+                  type="password" name='password2'
                   className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                   placeholder="New Confirm Password"
                 />
+                { server_erorr.password2 ? <h2 className="text-white  text-sm bg-red-500  text-center">{server_erorr.password2[0]}</h2> : ""  }
+
               </div>
     
              
-            
-    
+              { server_erorr.non_field_errors ?  
+                <Alert color='red'>{server_erorr.non_field_errors} </Alert>
+                 : ""}
              
-              { error.status ? <Alert color={error.type}  >{error.msg}</Alert> : '' 
-            }
+              {server_msg.msg ? <Alert color='green'> {server_msg.msg}</Alert> : ''}
               
               <button
                 type="submit"
