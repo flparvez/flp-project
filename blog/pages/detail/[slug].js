@@ -3,28 +3,28 @@ import { useEffect, useState } from "react";
 
 
 
-function Slug() {
+function Slug({data}) {
    
 
 
-    const [Blog, setBlog] = useState();
+    // const [Blog, setBlog] = useState();
 
-    const router = useRouter();
+    // const router = useRouter();
 
-    useEffect(() => {
-        if (!router.isReady) return;
-        const { slug } = router.query;
-        fetch(`http://127.0.0.1:8000/api/blogsD/?slug=${slug}`).then((a) => {
-            return a.json();
-        })
-            .then((parsed) => {
-                setBlog(parsed)
-            })
-    }, [router.isReady])
+    // useEffect(() => {
+    //     if (!router.isReady) return;
+    //     const { slug } = router.query;
+    //     fetch(`https://flparvez.up.railway.app/api/blogsD/?slug=${slug}`).then((a) => {
+    //         return a.json();
+    //     })
+    //         .then((parsed) => {
+    //             setBlog(parsed)
+    //         })
+    // }, [router.isReady])
     return (
         <div>
        
-        {Blog && Blog.map((data)=> (
+        {data && data.map((data)=> (
 
 
             <div key={data.id} className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white ">
@@ -58,5 +58,14 @@ function Slug() {
 }
 
 
+export async function getServerSideProps(context) {
+    // Fetch data from external API
+    const { slug } = context.query;
+    const res = await fetch(`https://flparvez.up.railway.app/api/blogsD/?slug=${slug}`)
+    const data = await res.json()
+  console.log(data)
+    // Pass data to the page via props
+    return { props: { data } }
+  }
 
 export default Slug

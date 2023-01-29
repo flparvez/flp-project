@@ -46,7 +46,6 @@ const [suc, setSuc] = useState({
 
 
 const [candidates, setCandidates] = useState([])
-console.log(candidates);
 
   // Clear Form
   const resetForm = () => {
@@ -98,14 +97,14 @@ useEffect(() => {
 
     if (title && content) {
       const res = await addPost(data)
-      console.log(res);
+      // console.log(res);
       
       if (res.data.status === "success") {
         setSuc({ status: true, msg: "Resume Uploaded Successfully", type: 'success' })
   
         // reset form
         resetForm()
-        navigate('/')
+       
         
       }
     } else {

@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 // Define a service using a base URL and expected endpoints
 export const userAuthApi = createApi({
   reducerPath: 'userAuthApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://127.0.0.1:8000/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://flparvez.up.railway.app/' }),
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query: (user) => {
@@ -88,6 +88,7 @@ export const userAuthApi = createApi({
         }
       }
     }),
+    
     getBlog: builder.query({
       query: () => {
         return {
@@ -109,6 +110,20 @@ export const userAuthApi = createApi({
         }
       }
     }),
+
+  deletePost: builder.mutation({
+      query: (id) => {
+       
+        return {
+          url: `api/blogs/${id}`,
+          method: 'DELETE',
+        credentials: 'include',
+        }
+      }
+    }),
+
+
+
     
 
   }),
@@ -118,4 +133,4 @@ export const userAuthApi = createApi({
 
 })
 
-export const { useRegisterUserMutation, useLoginUserMutation, useGetLoggedUserQuery, useChangeUserPasswordMutation, useSendPasswordResetEmailMutation, useResetPasswordMutation,useAddPostMutation, useGetBlogQuery, useEditPostMutation } = userAuthApi
+export const { useRegisterUserMutation, useLoginUserMutation, useGetLoggedUserQuery, useChangeUserPasswordMutation, useSendPasswordResetEmailMutation, useResetPasswordMutation,useAddPostMutation, useGetBlogQuery, useEditPostMutation,useDeletePostMutation } = userAuthApi

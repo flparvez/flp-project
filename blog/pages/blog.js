@@ -9,19 +9,6 @@ import { useEffect, useState } from "react";
 
 function Blogs({ data }) {
 
-console.log(data);
-
-    // const [blogs, setBlogs] = useState([]);
-    // useEffect(() => {
-    //     // console.log("useeffect is running");
-    //     fetch('http://127.0.0.1:8000/api/blogs/').then((a) => {
-    //         return a.json();
-    //     })
-    //         .then((parsed) => {
-    //             // console.log(parsed)
-    //             setBlogs(parsed)
-    //         })
-    // }, [])
 
 
    

@@ -1,5 +1,5 @@
 import { useGetBlogQuery,useEditPostMutation } from '@/pages/components/redux/UserAuthApi';
-import axios from 'axios';
+
 import { useRouter } from 'next/router';
 import React, {  useEffect, useState } from 'react';
 
@@ -9,7 +9,7 @@ import React, {  useEffect, useState } from 'react';
 
 
 
-const EditPost = () => {
+const EditPost = ({datas}) => {
 
   
 
@@ -25,8 +25,11 @@ const EditPost = () => {
     });
    
 const router = useRouter()
-const { id } = router.query;
+
+
 const  { name, title, slug, content,image,category}= formData
+
+// setFormData(datas)
 
     const handleChange = (e) => {
      
@@ -36,21 +39,12 @@ const  { name, title, slug, content,image,category}= formData
    
 
     
+    
     useEffect(() => {
-      if (!router.isReady) return;
-      const { id } = router.query;
-      fetch(`http://127.0.0.1:8000/api/blogs/?id=${id}`).then((a) => {
-          return a.json();
-      })
-          .then((parsed) => {
-              setFormData(parsed[0])
-              // setImage(parsed[0])
-          })
-  }, [router.isReady])
-
-    console.log(formData);
-    
-    
+      
+              setFormData(datas[0])
+        
+  }, [])
   
        
         //  const sl = slug ? slug : ''
@@ -79,7 +73,7 @@ const [suc, setSuc] = useState({
   
 const [candidates, setCandidates] = useState([])
 
-console.log(candidates);
+// console.log(candidates);
 
   // Handle Form Submission
 
@@ -296,6 +290,15 @@ useEffect(() => {
     );
 };
 
+export async function getServerSideProps(context) {
+  // Fetch data from external API
+  const { id } = context.query;
+  const res = await fetch(`https://flparvez.up.railway.app/api/blogs/?id=${id}`)
+  const datas = await res.json()
+
+  // Pass data to the page via props
+  return { props: { datas } }
+}
 
 
 export default EditPost;
