@@ -1,8 +1,11 @@
 
 import React, { useState } from 'react';
-import {   useNavigate, useParams } from 'react-router-dom';
+
 import { Alert } from "@material-tailwind/react";
-import { useResetPasswordMutation } from '../../services/UserAuthApi';
+import { useResetPasswordMutation } from '../components/redux/UserAuthApi';
+
+useResetPasswordMutation
+
 
 const ResetPassword = () => {
 
@@ -10,7 +13,7 @@ const ResetPassword = () => {
   const [server_msg, setServerMsg] = useState({})
   const [resetPassword] = useResetPasswordMutation()
     const {id,token} = useParams()
-      const navigate = useNavigate()
+      
         
         const handleSubmit =async (e)=>{
           e.preventDefault();
@@ -32,7 +35,7 @@ const ResetPassword = () => {
       setServerMsg(res.data)
       document.getElementById("password-change-form").reset();
       setTimeout(()=>{
-        navigate("/login")
+        // navigate("/login")
       }, 3000)
     }
 

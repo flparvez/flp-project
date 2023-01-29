@@ -44,13 +44,7 @@ const [registerUser, {isLoading}]= useRegisterUserMutation()
      }
     }
 
-    // { server_erorr.name ? console.log( server_erorr.name[0]) : "" }
-    // { server_erorr.email ? console.log( server_erorr.email[0]) : "" }
-    // { server_erorr.password ? console.log( server_erorr.password[0]) : "" }
-    // { server_erorr.password2 ? console.log( server_erorr.password2[0]) : "" }
-    // { server_erorr.tc ? console.log( server_erorr.tc[0]) : "" }
-    // {server_erorr.non_field_errors ? console.log( server_erorr.non_field_errors[0]) : "" }
-  
+    
   return (
   
   <div>
@@ -68,8 +62,8 @@ const [registerUser, {isLoading}]= useRegisterUserMutation()
         <div>
         <h2 className="text-center mb-3 bg-sky-200  mt-4">Register Here</h2>
 
-      <Link href="/login"> <h2 className='inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Login</h2> </Link>
-      <Link href="/register"> <h2 className='inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Register</h2> </Link>
+      <Link href="/auth/login"> <h2 className='inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Login</h2> </Link>
+      <Link href="/auth/register"> <h2 className='inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Register</h2> </Link>
           
        
           </div>
@@ -128,7 +122,7 @@ const [registerUser, {isLoading}]= useRegisterUserMutation()
           <div className="flex justify-between items-center mb-6">
            
             <Link
-              href="/send-password-reset-email"
+              href="/auth/send-password-reset-email"
               className="text-blue-600 hover:text-blue-700 focus:text-blue-700 active:text-blue-800 duration-200 transition ease-in-out"
               >Forgot password?</
             Link>

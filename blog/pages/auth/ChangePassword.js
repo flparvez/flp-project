@@ -1,10 +1,10 @@
 
 import React, { useState } from 'react';
-import {   useNavigate } from 'react-router-dom';
+
 import { Alert } from "@material-tailwind/react";
 import { useSelector } from 'react-redux';
-import { useChangeUserPasswordMutation } from '../../services/UserAuthApi';
-import { getToken } from '../../services/LocalStorageService';
+import { useChangeUserPasswordMutation } from '../components/redux/UserAuthApi';
+import { getToken } from '../components/redux/LocalStorageService';
 
 
 const ChangePassword = () => {

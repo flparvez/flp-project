@@ -78,8 +78,8 @@ const [server_erorr, setserver_error] = useState({})
         <div>
         <h2 className="text-center mb-3 bg-sky-200  mt-4">Login Here</h2>
 
-      <Link to="/login"> <h2 className='inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Login</h2> </Link>
-      <Link to="/register"> <h2 className='inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Register</h2> </Link>
+      <Link to="/auth/login"> <h2 className='inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Login</h2> </Link>
+      <Link to="/auth/register"> <h2 className='inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'>Register</h2> </Link>
           
        
           </div>
@@ -109,7 +109,7 @@ const [server_erorr, setserver_error] = useState({})
           <div className="flex justify-between items-center mb-6">
            
           <Link
-          to="/send-password-reset-email"
+          to="/auth/send-password-reset-email"
           className="text-blue-600 hover:text-blue-700 focus:text-blue-700 active:text-blue-800 duration-200 transition ease-in-out"
           >Forgot password?</
         Link>

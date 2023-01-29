@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 // import {   useNavigate } from 'react-router-dom';
 import { Alert } from "@material-tailwind/react";
-import { getToken } from '../../services/LocalStorageService';
-import { useSendPasswordResetEmailMutation } from '../../services/UserAuthApi';
+
+import { getToken } from '../components/redux/LocalStorageService';
+import { useResetPasswordMutation } from '../components/redux/UserAuthApi';
 const SendPasswordResetEmail = () => {
   const [server_erorr, setServerError] = useState({})
   const [server_msg, setServerMsg] = useState({})
